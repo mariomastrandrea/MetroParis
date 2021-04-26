@@ -2,59 +2,70 @@ package it.polito.tdp.metroparis.model;
 
 import com.javadocmd.simplelatlng.LatLng;
 
-public class Fermata {
-
+public class Fermata 
+{
 	private int idFermata;
 	private String nome;
 	private LatLng coords;
 
-	public Fermata(int idFermata, String nome, LatLng coords) {
+	
+	public Fermata(int idFermata, String nome, LatLng coords) 
+	{
 		this.idFermata = idFermata;
 		this.nome = nome;
 		this.coords = coords;
 	}
 
-	public Fermata(int idFermata) {
+	public Fermata(int idFermata) 
+	{
 		this.idFermata = idFermata;
 	}
 
-
-	public int getIdFermata() {
+	public int getIdFermata() 
+	{
 		return idFermata;
 	}
 
-	public void setIdFermata(int idFermata) {
+	public void setIdFermata(int idFermata) 
+	{
 		this.idFermata = idFermata;
 	}
 
-	public String getNome() {
+	public String getNome() 
+	{
 		return nome;
 	}
 
-	public void setNome(String nome) {
+	public void setNome(String nome) 
+	{
 		this.nome = nome;
 	}
 
-	public LatLng getCoords() {
+	public LatLng getCoords() 
+	{
 		return coords;
 	}
 
-	public void setCoords(LatLng coords) {
+	public void setCoords(LatLng coords) 
+	{
 		this.coords = coords;
 	}
 
 	@Override
-	public String toString() {
+	public String toString() 
+	{
 		return nome;
 	}
 
 	@Override
-	public int hashCode() {
+	public int hashCode() 
+	{
 		return ((Integer) idFermata).hashCode();
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(Object obj) 
+	{
 		if (this == obj)
 			return true;
 		if (obj == null)

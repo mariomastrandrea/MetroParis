@@ -11,35 +11,37 @@ import com.zaxxer.hikari.HikariDataSource;
  * Uses the HikariCP library for managing a connection pool
  * @see <a href="https://brettwooldridge.github.io/HikariCP/">HikariCP</a>
  */
-public class DBConnect {
+public class DBConnect 
+{
+	private static final String jdbcURL = "jdbc:mariadb://127.0.0.1/metroparis?serverTimezone=UTC";
+	private static HikariDataSource dataSource;
+	private static String user = "root";
+	private static String password = "root";
 
-	private static final String jdbcURL = "jdbc:mysql://localhost/metroparis?serverTimezone=UTC";
-	private static HikariDataSource ds;
+	static 
+	{
+		dataSource = new HikariDataSource();
 
-	public static Connection getConnection() {
+		dataSource.setJdbcUrl(jdbcURL);
+		dataSource.setUsername(user);
+		dataSource.setPassword(password);
 
-		if (ds == null) {
-			
-			ds = new HikariDataSource();
+		// configurazione MySQL
+		dataSource.addDataSourceProperty("cachePrepStmts", "true");
+		dataSource.addDataSourceProperty("prepStmtCacheSize", "250");
+		dataSource.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
+	}
 
-			ds.setJdbcUrl(jdbcURL);
-			ds.setUsername("root");
-			ds.setPassword("root");
-
-			// configurazione MySQL
-			ds.addDataSourceProperty("cachePrepStmts", "true");
-			ds.addDataSourceProperty("prepStmtCacheSize", "250");
-			ds.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
-
-		}
-
-		try {
-
-			return ds.getConnection();
-
-		} catch (SQLException e) {
+	public static Connection getConnection() 
+	{
+		try 
+		{
+			return dataSource.getConnection();
+		} 
+		catch (SQLException sqle) 
+		{
 			System.err.println("Errore connessione al DB");
-			throw new RuntimeException(e);
+			throw new RuntimeException(sqle);
 		}
 	}
 

@@ -1,5 +1,6 @@
 package it.polito.tdp.metroparis;
 
-public class MetroController {
+public class MetroController 
+{
 	
 }
