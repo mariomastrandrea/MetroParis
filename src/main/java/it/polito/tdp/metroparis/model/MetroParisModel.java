@@ -22,7 +22,7 @@ import it.polito.tdp.metroparis.db.MetroDAO;
 public class MetroParisModel
 {
 	private Graph<Fermata, DefaultEdge> grafo;
-	private MetroDAO metroDao;
+	private final MetroDAO metroDao;
 	private Map<Integer, Fermata> fermateById;
 	private Map<Fermata, Fermata> predecessore;
 
@@ -45,7 +45,9 @@ public class MetroParisModel
 		for(Fermata fermata : fermate)
 		{
 			this.grafo.addVertex(fermata);
-		}*/
+		}
+			>> meglio usare la classe Graphs
+		*/
 		
 		Graphs.addAllVertices(this.grafo, fermate);
 		
@@ -64,7 +66,7 @@ public class MetroParisModel
 			}
 		}*/
 		
-		Set<Connessione> connessioni = this.metroDao.getAllConnessioni(fermateById.values());
+		Set<Connessione> connessioni = this.metroDao.getAllConnessioni(fermateById);
 		
 		for(Connessione c : connessioni)
 		{
@@ -90,7 +92,7 @@ public class MetroParisModel
 			//oppure
 			Fermata f2 = this.grafo.getEdgeTarget(e);
 					
-			if(f1.equals(f2))
+			if(f1.equals(f))
 			{
 				//f2 è quello che mi serve
 			}
@@ -109,6 +111,19 @@ public class MetroParisModel
 		
 	}
 
+	public String stampaGrafo()
+	{
+		return this.grafo.toString();
+	}
+	
+	public Fermata trovaFermata(String nome)
+	{
+		for(Fermata f : this.grafo.vertexSet())
+			if(f.getNome().equals(nome))
+				return f;
+		
+		return null;
+	}
 	
 	public List<Fermata> fermateRaggiungibiliDa(Fermata partenza)
 	{
@@ -171,44 +186,31 @@ public class MetroParisModel
 		{
 			Fermata f = bfv.next();
 			result.add(f);
+			
 			Fermata parent = bfv.getParent(f);
 			this.predecessore.put(f, parent);
 		}
 		
 		return result;
-	}
-	
-	public Fermata trovaFermata(String nome)
-	{
-		for(Fermata f : this.grafo.vertexSet())
-			if(f.getNome().equals(nome))
-				return f;
-		
-		
-		return null;
-	}
+	} 
 	
 	public List<Fermata> trovaCammino(Fermata partenza, Fermata arrivo)
-	{
-		fermateRaggiungibiliDa(partenza);
-		
+	{				
 		LinkedList<Fermata> result = new LinkedList<>();
+		List<Fermata> fermateRaggiungibili = this.fermateRaggiungibiliDa(partenza);
+		
+		if(!fermateRaggiungibili.contains(arrivo))
+			return result;
 		
 		//parto dall'arrivo e vado a ritroso
 		Fermata f = arrivo;
 		
-		while(f != null) {
-			
+		while(f != null) 
+		{	
 			result.addFirst(f);
-			f = predecessore.get(f);
+			f = this.predecessore.get(f);
 		}
 		
 		return result;
-	}
-	
-
-	public String getGrafo()
-	{
-		return this.grafo.toString();
 	}
 }

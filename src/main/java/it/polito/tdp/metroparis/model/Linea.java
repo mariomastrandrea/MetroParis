@@ -1,62 +1,50 @@
 package it.polito.tdp.metroparis.model;
 
-public class Linea {
-
+public class Linea 
+{
 	private int idLinea;
 	private String nome;
 	private double velocita;
 	private double intervallo;
 
-	public Linea(int idLinea, String nome, double velocita, double intervallo) {
+	
+	public Linea(int idLinea, String nome, double velocita, double intervallo) 
+	{
 		this.idLinea = idLinea;
 		this.nome = nome;
 		this.velocita = velocita;
 		this.intervallo = intervallo;
 	}
 
-	public Linea(int idLinea) {
-		this.idLinea = idLinea;
+	public int getIdLinea() 
+	{
+		return this.idLinea;
+	}
+	
+	public String getNome() 
+	{
+		return this.nome;
 	}
 
-	public int getIdLinea() {
-		return idLinea;
+	public double getVelocita() 
+	{
+		return this.velocita;
 	}
 
-	public void setIdLinea(int idLinea) {
-		this.idLinea = idLinea;
-	}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public double getVelocita() {
-		return velocita;
-	}
-
-	public void setVelocita(double velocita) {
-		this.velocita = velocita;
-	}
-
-	public double getIntervallo() {
-		return intervallo;
-	}
-
-	public void setIntervallo(double intervallo) {
-		this.intervallo = intervallo;
+	public double getIntervallo() 
+	{
+		return this.intervallo;
 	}
 
 	@Override
-	public String toString() {
-		return nome;
+	public String toString() 
+	{
+		return this.nome;
 	}
 
 	@Override
-	public int hashCode() {
+	public int hashCode() 
+	{
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + idLinea;
@@ -64,7 +52,8 @@ public class Linea {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(Object obj) 
+	{
 		if (this == obj)
 			return true;
 		if (obj == null)

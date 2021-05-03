@@ -14,9 +14,9 @@ import com.zaxxer.hikari.HikariDataSource;
 public class DBConnect 
 {
 	private static final String jdbcURL = "jdbc:mariadb://127.0.0.1/metroparis?serverTimezone=UTC";
-	private static HikariDataSource dataSource;
-	private static String user = "root";
-	private static String password = "root";
+	private static final String user = "root";
+	private static final String password = "root";
+	private static final HikariDataSource dataSource;
 
 	static 
 	{
@@ -40,7 +40,7 @@ public class DBConnect
 		} 
 		catch (SQLException sqle) 
 		{
-			System.err.println("Errore connessione al DB");
+			System.err.println("Errore connessione al DB, url: " + jdbcURL);
 			throw new RuntimeException(sqle);
 		}
 	}

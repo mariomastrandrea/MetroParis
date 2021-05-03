@@ -2,59 +2,38 @@ package it.polito.tdp.metroparis.model;
 
 public class Connessione 
 {
-
 	private int idConnessione;
 	private Linea linea;
-	private Fermata stazP;
-	private Fermata stazA;
+	private Fermata stazPartenza;
+	private Fermata stazArrivo;
 
 	
-	public Connessione(int idConnessione, Linea linea, Fermata stazP, Fermata stazA) 
+	public Connessione(int idConnessione, Linea linea, Fermata stazPartenza, Fermata stazArrivo) 
 	{
 		this.idConnessione = idConnessione;
 		this.linea = linea;
-		this.stazP = stazP;
-		this.stazA = stazA;
+		this.stazPartenza = stazPartenza;
+		this.stazArrivo = stazArrivo;
 	}
 
 	public int getIdConnessione() 
 	{
-		return idConnessione;
-	}
-
-	public void setIdConnessione(int idConnessione) 
-	{
-		this.idConnessione = idConnessione;
+		return this.idConnessione;
 	}
 
 	public Linea getLinea() 
 	{
-		return linea;
-	}
-
-	public void setLinea(Linea linea) 
-	{
-		this.linea = linea;
+		return this.linea;
 	}
 
 	public Fermata getStazP() 
 	{
-		return stazP;
-	}
-
-	public void setStazP(Fermata stazP) 
-	{
-		this.stazP = stazP;
+		return this.stazPartenza;
 	}
 
 	public Fermata getStazA() 
 	{
-		return stazA;
+		return this.stazArrivo;
 	}
-
-	public void setStazA(Fermata stazA) 
-	{
-		this.stazA = stazA;
-	}
-
+	
 }

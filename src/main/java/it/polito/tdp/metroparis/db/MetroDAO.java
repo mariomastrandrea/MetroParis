@@ -5,9 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import com.javadocmd.simplelatlng.LatLng;
@@ -20,7 +20,6 @@ public class MetroDAO
 {
 	public List<Fermata> getAllFermate() 
 	{
-
 		final String sql = "SELECT id_fermata, nome, coordx, coordy FROM fermata ORDER BY nome ASC";
 		List<Fermata> fermate = new ArrayList<Fermata>();
 
@@ -33,18 +32,18 @@ public class MetroDAO
 			while (rs.next()) 
 			{
 				Fermata f = new Fermata(rs.getInt("id_Fermata"), rs.getString("nome"),
-						new LatLng(rs.getDouble("coordx"), rs.getDouble("coordy")));
+							new LatLng(rs.getDouble("coordx"), rs.getDouble("coordy")));
 				fermate.add(f);
 			}
 
+			rs.close();
 			st.close();
 			conn.close();
-
 		} 
 		catch (SQLException sqle) 
 		{
 			sqle.printStackTrace();
-			throw new RuntimeException("Errore di connessione al Database.");
+			throw new RuntimeException("Errore di connessione al Database in getAllFermate()");
 		}
 
 		return fermate;
@@ -64,19 +63,21 @@ public class MetroDAO
 
 			while (rs.next()) 
 			{
-				Linea f = new Linea(rs.getInt("id_linea"), rs.getString("nome"), rs.getDouble("velocita"),
-						rs.getDouble("intervallo"));
+				Linea f = new Linea(rs.getInt("id_linea"), rs.getString("nome"), 
+									rs.getDouble("velocita"), rs.getDouble("intervallo"));
 				linee.add(f);
 			}
-
+			
+			rs.close();
 			st.close();
 			conn.close();
 		} 
 		catch (SQLException sqle)
 		{
 			sqle.printStackTrace();
-			throw new RuntimeException("Errore di connessione al Database.");
+			throw new RuntimeException("Errore di connessione al Database in getAllLinee()");
 		}
+		
 		return linee;
 	}
 
@@ -114,52 +115,43 @@ public class MetroDAO
 		}
 	}
 	
-	public Set<Connessione> getAllConnessioni(Collection<Fermata> fermate)
+	public Set<Connessione> getAllConnessioni(Map<Integer, Fermata> fermateById)
 	{
 		String sqlQuery = "SELECT id_connessione, id_linea, id_stazP, id_stazA FROM connessione WHERE id_stazP > id_stazA";
 		
+		Set<Connessione> set = new HashSet<>();
+
 		try
 		{
 			Connection connection = DBConnect.getConnection();
 			PreparedStatement statement = connection.prepareStatement(sqlQuery);
 			ResultSet queryResult = statement.executeQuery();
 			
-			Set<Connessione> set = new HashSet<>();
 			
 			while(queryResult.next())
 			{
 				int id_connessione = queryResult.getInt("id_connessione");
 				int id_partenza = queryResult.getInt("id_stazP");
 				
-				Fermata fermataPartenza = null;
-				for(Fermata f : fermate)
-					if(f.getIdFermata() == id_partenza)
-					{
-						fermataPartenza = f;
-						break;
-					}
+				Fermata fermataPartenza = fermateById.get(id_partenza);
 				
 				int id_arrivo = queryResult.getInt("id_stazA");
-				Fermata fermataArrivo = null;
-				for(Fermata f : fermate)
-					if(f.getIdFermata() == id_arrivo)
-					{
-						fermataArrivo = f;
-						break;
-					}
+				Fermata fermataArrivo = fermateById.get(id_arrivo);
 				
 				Connessione newConnessione = new Connessione(id_connessione, null, fermataPartenza, fermataArrivo);
 				set.add(newConnessione);
 			}
 			
+			queryResult.close();
+			statement.close();
 			connection.close();
-			
-			return set;
 		}
 		catch(SQLException sqle)
 		{
 			throw new RuntimeException("Error DAO in getAllConnessioni()", sqle);
 		}
+		
+		return set;
 	}
 
 }

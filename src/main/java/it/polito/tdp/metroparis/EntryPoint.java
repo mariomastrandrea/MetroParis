@@ -1,15 +1,14 @@
 package it.polito.tdp.metroparis;
 
+import it.polito.tdp.metroparis.model.MetroParisModel;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-
 public class EntryPoint extends Application 
 {
-
     @Override
     public void start(Stage stage) throws Exception 
     {
@@ -18,9 +17,10 @@ public class EntryPoint extends Application
         
         Scene scene = new Scene(root);
         scene.getStylesheets().add("/styles/Styles.css");
-        @SuppressWarnings("unused")
-		MetroController controller = loader.getController();
-        // set Model
+
+        MetroController controller = loader.getController();
+        MetroParisModel model = new MetroParisModel();
+        controller.setModel(model);
         
         stage.setTitle("Metro Paris - ex");
         stage.setScene(scene);
@@ -40,5 +40,4 @@ public class EntryPoint extends Application
     {
         launch(args);
     }
-
 }

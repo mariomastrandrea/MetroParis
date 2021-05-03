@@ -16,45 +16,25 @@ public class Fermata
 		this.coords = coords;
 	}
 
-	public Fermata(int idFermata) 
-	{
-		this.idFermata = idFermata;
-	}
-
 	public int getIdFermata() 
 	{
-		return idFermata;
-	}
-
-	public void setIdFermata(int idFermata) 
-	{
-		this.idFermata = idFermata;
+		return this.idFermata;
 	}
 
 	public String getNome() 
 	{
-		return nome;
-	}
-
-	public void setNome(String nome) 
-	{
-		this.nome = nome;
+		return this.nome;
 	}
 
 	public LatLng getCoords() 
 	{
-		return coords;
-	}
-
-	public void setCoords(LatLng coords) 
-	{
-		this.coords = coords;
+		return this.coords;
 	}
 
 	@Override
 	public String toString() 
 	{
-		return nome;
+		return this.nome;
 	}
 
 	@Override
